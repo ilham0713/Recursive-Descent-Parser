@@ -1,0 +1,9 @@
+/* Expression cannot contain procedure */
+var x,y,z,v,w;
+procedure a;
+	begin
+	
+	end;
+begin
+	x := a + y;
+end.

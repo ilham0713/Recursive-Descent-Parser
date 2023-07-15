@@ -1,0 +1,4 @@
+/* Undeclared identifier */
+begin
+	x := 7;
+end.

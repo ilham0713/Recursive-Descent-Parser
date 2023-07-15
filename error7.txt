@@ -1,0 +1,2 @@
+/* Consts must be assigned integer values */
+const x = 7, y = x;

@@ -1,0 +1,14 @@
+/* Only procedures can be called */
+const f = 3;
+procedure b; 
+        var ans1;  
+        procedure a; 
+            begin
+                ans1 := 5;
+            end;
+        begin
+            call f;
+        end;
+begin
+        call b;
+end.

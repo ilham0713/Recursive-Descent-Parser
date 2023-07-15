@@ -1,0 +1,4 @@
+/* While must be followed by do */
+begin
+	while 5 < 4
+end.

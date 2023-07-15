@@ -1,0 +1,5 @@
+/* Arithmetic equations must contain operands */
+var x;
+begin
+	x := x + ;
+end.

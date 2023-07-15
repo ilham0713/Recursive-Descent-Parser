@@ -1,0 +1,9 @@
+/* invalid operation for statement */
+var x,y,z,v,w;
+procedure a;
+	begin
+		<> := 5;
+	end;
+begin
+	x := 5;
+end.

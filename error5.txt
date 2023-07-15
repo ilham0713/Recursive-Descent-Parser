@@ -1,0 +1,5 @@
+/* Symbol name already declared */
+const x = 2;
+var x;
+begin
+end.

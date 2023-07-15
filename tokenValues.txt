@@ -1,0 +1,31 @@
+ident = identifier
+number = #
+plus=+
+minus=-
+mult = *
+slash = /
+eq = =
+neq = <>
+les = <
+gtr = >
+geq = >=
+lparent = (
+rparent = )
+comma = ,
+semicolon = ;
+period = .
+becomes = :=
+begin = begin
+end = end
+if = if
+then = then
+while = while
+do = do
+call = call
+const = const
+var = var
+proc = procedure
+write = write
+read = read
+else = else
+odd = odd

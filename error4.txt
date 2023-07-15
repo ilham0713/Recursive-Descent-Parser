@@ -1,0 +1,4 @@
+/* Read must be followed by identifier */
+begin
+	read
+end.

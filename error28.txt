@@ -1,0 +1,9 @@
+/* factor can't use relational operators */
+var x,y,z,v,w;
+procedure a;
+	begin
+		y := 5 *(4 < 3);
+	end;
+begin
+	x := 5;
+end.

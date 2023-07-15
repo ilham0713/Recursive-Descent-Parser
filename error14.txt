@@ -1,0 +1,4 @@
+/* If must be followed by then */
+begin
+	if 5 < 4
+end.

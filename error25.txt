@@ -1,0 +1,9 @@
+/* Identifier too long */
+var x,y,z,v,w;
+procedure aaaaaaaaaaaaaaaaaaaa;
+	begin
+		
+	end;
+begin
+	x := 5;
+end.

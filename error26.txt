@@ -1,0 +1,9 @@
+/* Number too large */
+var x,y,z,v,w;
+procedure a;
+	begin
+		
+	end;
+begin
+	x := 5555555555555;
+end.

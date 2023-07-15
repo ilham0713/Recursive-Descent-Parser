@@ -1,0 +1,5 @@
+var x, y;
+u := 1; 
+begin 
+  x := y * 2;  
+end.

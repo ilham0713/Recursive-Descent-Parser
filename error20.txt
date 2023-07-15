@@ -1,0 +1,9 @@
+/* call must be followed by identifier */
+var x,y,z,v,w;
+procedure a;
+	begin
+		call 
+	end;
+begin
+	call a;
+end.

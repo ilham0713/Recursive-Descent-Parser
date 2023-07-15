@@ -1,0 +1,19 @@
+/* Only procedures can be called */
+var f, n;
+procedure b; 
+        var ans1;  
+        procedure a; 
+            const b = 6;
+            begin
+                ans1 := 5;
+            end;
+        begin
+            call ans1;
+            ans1:=n;
+            n:= n-1;
+        end;
+begin
+        n:=3;
+        call b;
+        write f
+end.

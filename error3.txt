@@ -1,0 +1,2 @@
+/* Var must be followed by identifier */
+var

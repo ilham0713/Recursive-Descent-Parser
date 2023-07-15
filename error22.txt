@@ -1,0 +1,9 @@
+/* invalid symbol */
+var x,y,z,v,w;
+procedure a;
+	begin
+		%
+	end;
+begin
+	a := 5;
+end.
