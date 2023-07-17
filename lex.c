@@ -8,13 +8,23 @@
 #include <ctype.h>
 
 typedef enum {  
-skipsym = 1, identsym, numbersym, plussym, minussym, 
+    skipsym = 1, identsym, numbersym, plussym, minussym, 
     multsym,  slashsym, oddsym, eqsym, neqsym, lessym, leqsym, 
     gtrsym, geqsym, lparentsym, rparentsym, commasym, semicolonsym, 
     periodsym, becomessym, beginsym, endsym, ifsym, thensym,  
     whilesym, dosym, callsym, constsym, varsym, procsym, writesym, 
     readsym , elsesym } token_type; 
 
+typedef struct {
+    int kind;//op
+    char name[10];
+    int val;
+    int level;//L
+    int addr; //M
+    int mark;
+} symbol;
+
+symbolTable[500];
 int output[500];
 int chrs = 0;
 int cnt = 0;
@@ -177,14 +187,17 @@ void print_symb(char* chararr, int index){
     }
     // checks for <, <=, and <>
     else if(chararr[index] =='<'){
+        cnt++;
         index++;
         if(chararr[index] == '='){
+            printf("equal lessym\n");
             printf("%c%-11c%-11d\n",chararr[index-1],chararr[index], leqsym);
             output[cnt] = leqsym;
             cnt++;
             index++;
         }
         else if(chararr[index] == '>'){
+            printf("less sign lessym\n");
             printf("%c%-11c%-11d\n",chararr[index-1], chararr[index], neqsym);
             output[cnt] = neqsym;
             cnt++;
@@ -192,6 +205,7 @@ void print_symb(char* chararr, int index){
         }
         else{
             printf("%-11c%-11d\n",chararr[index], lessym);
+
             output[cnt] = lessym;
             cnt++;
         }
