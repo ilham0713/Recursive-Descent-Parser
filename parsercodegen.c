@@ -719,13 +719,13 @@ char *printAssembly(int i)
 // Make character token
 token *makeToken(char *buffer)
 {
-  token *workingToken = malloc(sizeof(token));
+  token *propToken = malloc(sizeof(token));
 
-  strcpy(workingToken->identifier, buffer);
+  strcpy(propToken->identifier, buffer);
 
-  workingToken->tokenValue = getToken(buffer);
+  propToken->tokenValue = getToken(buffer);
 
-  return workingToken;
+  return propToken;
 }
 
 // Make special tokenz
@@ -739,49 +739,49 @@ token *getSpecial(char current, FILE *srcFile)
   callsym9 = 27, constsym = 28, varsym = 29, procsym9 = 30, writesym = 31,
   readsym = 32, elsesym9 = 33;
 
-  token *workingToken = malloc(sizeof(token));
+  token *propToken = malloc(sizeof(token));
 
-  workingToken->identifier[0] = current;
+  propToken->identifier[0] = current;
 
   if (current == '+')
   {
-    workingToken->tokenValue = plussym; // 4
+    propToken->tokenValue = plussym; // 4
   }
   else if (current == '-')
   {
-    workingToken->tokenValue = minussym; // 5
+    propToken->tokenValue = minussym; // 5
   }
   else if (current == '*')
   {
-    workingToken->tokenValue = multsym; // 6
+    propToken->tokenValue = multsym; // 6
   }
   else if (current == '/')
   {
-    workingToken->tokenValue = slashsym; // 7
+    propToken->tokenValue = slashsym; // 7
   }
   else if (current == '(')
   {
-    workingToken->tokenValue = lparentsym; // 15
+    propToken->tokenValue = lparentsym; // 15
   }
   else if (current == ')')
   {
-    workingToken->tokenValue = rparentsym; // 16
+    propToken->tokenValue = rparentsym; // 16
   }
   else if (current == ',')
   {
-    workingToken->tokenValue = commasym; // 17
+    propToken->tokenValue = commasym; // 17
   }
   else if (current == '=')
   {
-    workingToken->tokenValue = eqlsym; // 9
+    propToken->tokenValue = eqlsym; // 9
   }
   else if (current == '.')
   {
-    workingToken->tokenValue = periodsym; // 19
+    propToken->tokenValue = periodsym; // 19
   }
   else if (current == ';')
   {
-    workingToken->tokenValue = semicolonsym; // 18
+    propToken->tokenValue = semicolonsym; // 18
   }
   else if (current == ':')
   {
@@ -791,7 +791,7 @@ token *getSpecial(char current, FILE *srcFile)
 
     if (current == '=')
     {
-      workingToken->tokenValue = becomessym; // 20
+      propToken->tokenValue = becomessym; // 20
     }
     else
     {
@@ -809,15 +809,15 @@ token *getSpecial(char current, FILE *srcFile)
 
     if (current == '=')
     {
-      workingToken->tokenValue = leqsym; // 12
+      propToken->tokenValue = leqsym; // 12
     }
     else if (isspace(current) || iscntrl(current))
     {
-      workingToken->tokenValue = lessym; // 11
+      propToken->tokenValue = lessym; // 11
     }
     else if (current == '>')
     {
-      workingToken->tokenValue = neqsym; // 10
+      propToken->tokenValue = neqsym; // 10
     }
     else
     {
@@ -833,11 +833,11 @@ token *getSpecial(char current, FILE *srcFile)
 
     if (current == '=')
     {
-      workingToken->tokenValue = geqsym; // 14
+      propToken->tokenValue = geqsym; // 14
     }
     else if (isspace(current) || iscntrl(current))
     {
-      workingToken->tokenValue = gtrsym; // 13
+      propToken->tokenValue = gtrsym; // 13
     }
     else
     {
@@ -853,7 +853,7 @@ token *getSpecial(char current, FILE *srcFile)
 
     if (current == '=')
     {
-      workingToken->tokenValue = neqsym; // 10
+      propToken->tokenValue = neqsym; // 10
     }
     else
     {
@@ -861,28 +861,27 @@ token *getSpecial(char current, FILE *srcFile)
       exit(0);
     }
   }
-
-  return workingToken;
+  return propToken;
 }
 
-// Makes a token attached to number
+// Makes a token attached to num
 token *getNumToken(int *buffer, int length)
 {
-  token *workingToken = malloc(sizeof(token));
+  token *propToken = malloc(sizeof(token));
 
-  int answer = 0;
+  int ans= 0;
   int power = 1;
 
   for (int i = length - 2; i >= 0; i--)
   {
-    answer = answer + (buffer[i] * power);
+    ans= ans+ (buffer[i] * power);
     power = power * 10;
   }
 
-  workingToken->tokenValue = 3;
-  workingToken->integer = answer;
+  propToken->tokenValue = 3;
+  propToken->integer = ans;
 
-  return workingToken;
+  return propToken;
 }
 
 int getToken(char *buffer)
@@ -895,7 +894,7 @@ int getToken(char *buffer)
   callsym9 = 27, constsym = 28, varsym = 29, procsym9 = 30, writesym = 31,
   readsym = 32, elsesym9 = 33;
 
-  if (strcmp(buffer, "else") == 0) // 33
+  if (strcmp(buffer, "else99") == 0) // 33
       return identsym;
   if (strcmp(buffer, "odd") == 0) // 8
     return oddsym;
@@ -917,7 +916,7 @@ int getToken(char *buffer)
       return constsym;
   if (strcmp(buffer, "var") == 0) // 29
       return varsym;
-  if (strcmp(buffer, "procedure") == 0) // 30 TO DO!!!!!!!!!!!!!!!!!!!!
+  if (strcmp(buffer, "procedure99") == 0) // 30
       return identsym;
   if (strcmp(buffer, "read") == 0) // 32
       return readsym;
