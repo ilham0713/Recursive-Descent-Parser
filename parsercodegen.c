@@ -56,13 +56,9 @@ int symbolTableCheck(char *string, symbol **symbolTable)
 }
 
 int variableDeclaration(symbol **symbolTable, token **tokenz);
-
 void constantDeclaration(symbol **symbolTable, token **tokenz);
-
 void expression(token **tokenz, symbol **symbolTable);
-
 void emit(int OP, int M);
-
 int getToken(char *buffer);
 
 //mallocs and creates table as needed
@@ -133,18 +129,18 @@ void factor(token **tokenz, symbol **symbolTable)
   }
   else
   {
-    //printf("tokenValue = %d\n", tokenz[curIndex]->tokenValue);
+    //printf("tokenVal: %d\n", tokenz[curIndex]->tokenValue);
     printf("ERROR: Arithmetic equations must contain operands, parenthesis, numbers, or symbols\n");
     exit(0);
   }
-  //printf("curIndex bottom of factor:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("End of factor curInd: %d   token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
 void term (token **tokenz, symbol **symbolTable)
 {
-  //printf ("\n token in term is %s\n\n" , tokenz[curIndex]->identifier);
+  //printf ("\n token inside term is %s\n\n" , tokenz[curIndex]->identifier);
 
-  //printf("curIndex top of term:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("Top of term Curindex: %d  token value: %d\n", curIndex, tokenz[curIndex]->tokenValue);
   factor(tokenz, symbolTable);
   // mult, slash, mod
   while (tokenz[curIndex]->tokenValue == 6 || tokenz[curIndex]->tokenValue == 7)
@@ -167,7 +163,7 @@ void term (token **tokenz, symbol **symbolTable)
       exit (0);
     }
   }
-  //printf("curIndex bottom of term:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("End of term CurInd: %d  token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
 void expression (token **tokenz, symbol **symbolTable)
@@ -217,12 +213,12 @@ void expression (token **tokenz, symbol **symbolTable)
       }
     }
   }
-  //printf("curIndex bottom of expression:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("expression curInd:   %d   token val:  %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
 void condition(token **tokenz, symbol **symbolTable)
 {
-  //printf("curIndex top of condition:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("Top of condition curInd:   %d   token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
   if (tokenz[curIndex]->tokenValue == 8) // odd
   {
     curIndex++;
@@ -273,16 +269,16 @@ void condition(token **tokenz, symbol **symbolTable)
       printf("ERROR: Condition must contain comparison operators\n");
       exit (0);
     }
-    //printf("curIndex bottom of condition:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+    //printf("End of cond curIndex:   %d   token val:  %d\n", curIndex, tokenz[curIndex]->tokenValue);
   }
 }
 
 void statement(token **tokenz, symbol **symbolTable)
 {
-  //printf("curIndex top of statement:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("Top of statement curIndex: %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
   if (tokenz[curIndex]->tokenValue == 2) // identsym
   {
-    //printf("statement identsym = %s\n" , tokenz[curIndex]->identifier);
+    //printf("stmnt identsym = %s\n" , tokenz[curIndex]->identifier);
     symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
     if (symIndex == -1)
     {
@@ -398,7 +394,7 @@ void statement(token **tokenz, symbol **symbolTable)
     return;
   }
 
-  //printf("curIndex in statement:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("curIndex in stmnt: %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 
   if (tokenz[curIndex]->tokenValue == 31) // writesym
   {
@@ -408,14 +404,14 @@ void statement(token **tokenz, symbol **symbolTable)
     return;
   }
 
-  //printf("curIndex bottom of statement:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("Bottom of statement curInd : %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
 int variableDeclaration (symbol **symbolTable, token **tokenz)
 {
   int numVars = 0;
 
-  //printf("curIndex top of varDec:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("Top of varDec curInd: %d   token val %d\n", curIndex, tokenz[curIndex]->tokenValue);
 
   if (tokenz[curIndex]->tokenValue == 29) //varsym
   {
@@ -444,13 +440,13 @@ int variableDeclaration (symbol **symbolTable, token **tokenz)
     }
     curIndex++;
   }
-  //printf("curIndex bottom of varDec:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("Bottom of varDec curInd : %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
   return numVars;
 }
 
 void constantDeclaration (symbol **symbolTable, token **tokenz)
 {
-  //printf("curIndex top of constDec:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+  //printf("Top of constDec curIndex : %d   token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 
   if (tokenz[curIndex]->tokenValue == 28)
   {
@@ -511,7 +507,7 @@ void constantDeclaration (symbol **symbolTable, token **tokenz)
       printf("ERROR: Constant and variable declarations must be followed by a semicolon\n");
     }
     curIndex++;
-    //printf("curIndex bottom of constDec:   %d   token value %d\n", curIndex, tokenz[curIndex]->tokenValue);
+    //printf("End of constDec curIndex: %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
   }
 }
 
@@ -533,11 +529,11 @@ void program (symbol **symbolTable, token **tokenz)
 
   block(symbolTable, tokenz);
 
-  //printf("\n\ntoken is %d\n\n", tokenz[curIndex]->tokenValue);
+  //printf("\n\ntoken: %d\n\n", tokenz[curIndex]->tokenValue);
   if (tokenz[curIndex]->tokenValue != 19) // period
   {
-    //printf("token value: %d", tokenz[curIndex]->tokenValue);
-    //printf("my index is %d token count is\n", curIndex);
+    //printf("token val: %d", tokenz[curIndex]->tokenValue);
+    //printf("index: %d token count: \n", curIndex);
     exit (0);
   }
   emit(9, 3);
@@ -583,12 +579,12 @@ char *printAssembly(int i)
 
   switch (assemblyTable[i].OP)
   {
-  case 1: // push M onto stack
+  case 1: // pushes M onto stack
     return "LIT";
 
     break;
 
-  case 2: // returns from a subroutine and restores the caller’s AR
+  case 2: // returns from a subroutine and restores caller’s AR
 
     switch (assemblyTable[i].M)
     {
@@ -648,54 +644,54 @@ char *printAssembly(int i)
     }
     break;
 
-  // load value to top of stack from the stack location at offset o from n lexicographical levels down
+  // loads val to top of stack from stack location at offset o from n lexicographical levels down
   case 3:
     return "LOD";
 
     break;
 
-  // Store value at top of stack in the stack location at offset o from n lexicographical levels down
+  // Stores val at top of stack in stack location at offset o from n lexicographical levels down
   case 4:
     return "STO";
 
     break;
 
-  // call the procedure at code curIndex p, generating a new activation record and setting PC to p
+  // calls procedure at code curIndex p, generates new activation record and setting PC to p
   case 5:
     return "CAL";
 
     break;
 
-  // allocate m locals on the stack
+  // allocates m locals on stack
   case 6:
     return "INC";
 
     break;
 
-  // jump to address in stack and pop
+  // jump to addr in stack and pop
   case 7:
     return "JMP";
 
     break;
 
-  // jump conditionally: if the value in stack[sp] is 0, then jump to a and pop the stack
+  // jump conditionally, if val in stack[sp] is 0, then jumps to a and pop stack
   case 8:
     return "JPC";
 
     break;
 
-  // print value, read value, or end program
+  // prints val, reads val, or ends program
   case 9:
 
     switch (assemblyTable[i].M)
     {
-    // Output of the value in stack[SP] to standard output as a character and pop
+    // Output of the value in stack[SP] to standard output as a character and pops
     case 1:
       return "SYS";
 
       break;
 
-    // Read an integer, as character value, from standard input (stdin) and store it on the top of the stack
+    // Reads an int as char value, from stdin and stores it on the top of the stack
     case 2:
       //int userInt;
       printf("Please Enter an Integer: \n");
@@ -704,7 +700,7 @@ char *printAssembly(int i)
 
       break;
 
-    // halt program
+    // stop program
     case 3:
       return "SYS";
       halt = 1;
@@ -716,7 +712,7 @@ char *printAssembly(int i)
     return "Error";
 }
 
-// Make character token
+// Create character token
 token *makeToken(char *buffer)
 {
   token *propToken = malloc(sizeof(token));
@@ -940,16 +936,15 @@ int main (int argc, char **argv)
   char *file_name = argv[1];
   FILE *srcFile = fopen(file_name, "r");
 
-  // printf("Source Program: \n");
-  //
-  // // Print source program
-  // while (!feof(srcFile))
-  // {
-  //   current = getc(srcFile);
-  //   if (current == EOF)
-  //     break;
-  //   printf("%c", current);
-  // }
+   /*printf("Source Program: \n");
+   // Print source program
+   while (!feof(srcFile))
+   {
+     current = getc(srcFile);
+     if (current == EOF)
+      break;
+     printf("%c", current);
+   }*/
 
   //srcFile = fopen(file_name, "r");
 
@@ -974,7 +969,7 @@ int main (int argc, char **argv)
     // Skip comment
     if (current == '/' && !feof(srcFile))
     {
-      // Checks to see if next char is *
+      // Checks if next char is *
       current = getc(srcFile);
 
 
