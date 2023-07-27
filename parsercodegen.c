@@ -81,10 +81,10 @@ void printTable(symbol **symbolTable)
   printf("\n");
 	printf("Symbol Table:\n\n");
 	printf("Kind | Name        | Value | Level | Address | Mark\n");
-	printf("---------------------------------------------------\n");
+	printf("----------------------------------------------------\n");
 
 	for (int i = 0; i < symCnt; i++)
-		printf("%4d | %11s | %5d | %5d | %5d | %5d\n", symbolTable[i]->kind, symbolTable[i]->name, symbolTable[i]->val, symbolTable[i]->level, symbolTable[i]->addr, 1);
+		printf("%4d | %11s | %5d | %5d | %7d | %5d\n", symbolTable[i]->kind, symbolTable[i]->name, symbolTable[i]->val, symbolTable[i]->level, symbolTable[i]->addr, 1);
 	printf("\n");
 }
 
@@ -1159,7 +1159,7 @@ int main (int argc, char **argv)
   assemblyTable[0].M = 3;
 
 
-  printf("Line\t\tOP\t\t\tL\t\tM\n");
+  printf("\nLine\t\tOP\t\t\tL\t\tM\n");
 
   for (int i = 0; i < assemblyCnt; i++)
   {
