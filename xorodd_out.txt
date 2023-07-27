@@ -1,5 +1,5 @@
 Assembly Code:
-Line	 OP	L	M
+Line OP	L	M
   0	JMP	0	3
   1	INC	0	6
   2	LIT	0	2
