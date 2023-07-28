@@ -136,7 +136,7 @@ void factor(token **tokenz, symbol **symbolTable)
   //printf("End of factor curInd: %d   token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
-void term (token **tokenz, symbol **symbolTable)
+void term(token **tokenz, symbol **symbolTable)
 {
   //printf ("\n token inside term is %s\n\n" , tokenz[curIndex]->identifier);
 
@@ -166,7 +166,7 @@ void term (token **tokenz, symbol **symbolTable)
   //printf("End of term CurInd: %d  token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
-void expression (token **tokenz, symbol **symbolTable)
+void expression(token **tokenz, symbol **symbolTable)
 {
   if (tokenz[curIndex]->tokenValue == 5) // minus
   {
@@ -279,14 +279,15 @@ void statement(token **tokenz, symbol **symbolTable)
   if (tokenz[curIndex]->tokenValue == 2) // identsym
   {
     //printf("stmnt identsym = %s\n" , tokenz[curIndex]->identifier);
-    symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
+    int symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
+    //printf("\nStore %d", symIndex);
     if (symIndex == -1)
     {
       printf("ERROR: Undeclared identifier %s\n", tokenz[curIndex]->identifier);
       exit(0);
     }
 
-    if (symbolTable[symIndex]->kind != 2)
+    if (symbolTable[symIndex]->kind != 2) 
     {
       printf("ERROR: Only variable values may be altered\n");
       exit(0);
@@ -298,10 +299,9 @@ void statement(token **tokenz, symbol **symbolTable)
       exit (0);
     }
     curIndex++;
-
-
     expression(tokenz, symbolTable);
     emit(4, symbolTable[symIndex]->addr);
+    //printf("\n symbtable addr: %d", symbolTable[symIndex]->addr);
     return;
   }
 
@@ -309,18 +309,18 @@ void statement(token **tokenz, symbol **symbolTable)
   {
     do {
       curIndex++;
+      statement(tokenz, symbolTable);
+      //look for semi colon
+      // if (tokenz[curIndex]->tokenValue == 19)
+      // {
 
-      if (tokenz[curIndex]->tokenValue == 19)
-      {
-        printf("ERROR: Begin must be followed by end\n");
-        exit (0);
-      }
+      // printf("ERROR: Begin must be followed by end\n");
+      //   exit (0);
+      // }
 
       statement(tokenz, symbolTable);
-    } while(tokenz[curIndex]->tokenValue != 18);
-
-
-    curIndex++;
+    } while(tokenz[curIndex]->tokenValue == 18);
+    //curIndex++;
 
     if (tokenz[curIndex]->tokenValue != 22) // endsym
     {
@@ -335,7 +335,8 @@ void statement(token **tokenz, symbol **symbolTable)
   {
     curIndex++;
     condition(tokenz, symbolTable);
-    jpcIndex = assemblyCnt;
+    //maybe
+    int jpcIndex = assemblyCnt;
     emit(8, 0);
     if (tokenz[curIndex]->tokenValue != 24) // thensym
     {
@@ -366,7 +367,6 @@ void statement(token **tokenz, symbol **symbolTable)
     assemblyTable[jpcIndex].M = assemblyCnt;
     return;
   }
-
   if (tokenz[curIndex]->tokenValue == 32) // readsym
   {
     curIndex++;
@@ -410,20 +410,18 @@ void statement(token **tokenz, symbol **symbolTable)
 int variableDeclaration (symbol **symbolTable, token **tokenz)
 {
   int numVars = 0;
-
   //printf("Top of varDec curInd: %d   token val %d\n", curIndex, tokenz[curIndex]->tokenValue);
-
-  if (tokenz[curIndex]->tokenValue == 29) //varsym
+  if(tokenz[curIndex]->tokenValue == 29) //varsym
   {
-    do {
+    do{
       numVars++;
       curIndex++;
-      if (tokenz[curIndex]->tokenValue != 2) // identsym
+      if(tokenz[curIndex]->tokenValue != 2) // identsym
       {
         printf("ERROR: Const, var, and read must be followed by an identifier\n");
         exit (0);
       }
-      if (symbolTableCheck(tokenz[curIndex]->identifier, symbolTable) != -1)
+      if(symbolTableCheck(tokenz[curIndex]->identifier, symbolTable) != -1)
       {
           printf("ERROR: Symbol name has already been declared\n");
           exit (0);
@@ -532,6 +530,7 @@ void program (symbol **symbolTable, token **tokenz)
   //printf("\n\ntoken: %d\n\n", tokenz[curIndex]->tokenValue);
   if (tokenz[curIndex]->tokenValue != 19) // period
   {
+    printf("ERROR: No period found");
     //printf("token val: %d", tokenz[curIndex]->tokenValue);
     //printf("index: %d token count: \n", curIndex);
     exit (0);
@@ -797,11 +796,11 @@ token *getSpecial(char current, FILE *srcFile)
   }
   else if (current == '<')
   {
-    printf("1current = %c\n", current);
+    //printf("1current = %c\n", current);
     char prev = current;
 
     current = getc(srcFile);
-    printf("2current = %c\n", current);
+    //printf("2current = %c\n", current);
 
     if (current == '=')
     {

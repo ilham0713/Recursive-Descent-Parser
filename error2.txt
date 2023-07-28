@@ -1,2 +1,2 @@
 /* Const must be followed by identifier */
-const
+const.
