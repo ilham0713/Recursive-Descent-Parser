@@ -1,0 +1,46 @@
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ gcc parsercodegen.c 
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error1.txt
+ERROR: Program must end with a period
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error2.txt
+ERROR: Const, var, and read must be followed by an identifier
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error3.txt
+ERROR: Symbol name has already been declared
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error4.txt
+ERROR: Constants must be assigned with '='
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error5.txt
+ERROR: Constants must be assigned an integer value
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error6.txt
+ERROR: Constant and variable declarations must be followed by a semicolon
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error7.txt
+ERROR: Undeclared identifier x
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error8.txt
+ERROR: Only variable values may be altered
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error9.txt
+ERROR: Assignment statements must use ':='
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error10.txt
+ERROR: Begin must be followed by end
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error11.txt
+ERROR: If must be followed by then
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error12.txt
+ERROR: While must be followed by do
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error13.txt
+ERROR: Condition must contain right and left comparison operators
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error14.txt
+ERROR: Left parenthesis must be followed by right parenthesis
+
+(base) Ilhams-MacBook-Pro:SSproj ilhammukati$ ./a.out error15.txt
+ERROR: Arithmetic equations must contain operands, parenthesis, numbers, or symbols

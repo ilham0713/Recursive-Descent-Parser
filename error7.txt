@@ -1,2 +1,4 @@
-/* Consts must be assigned integer values */
-const x = 7, y = x;
+/* Undeclared identifier */
+begin
+	x := 7;
+end.

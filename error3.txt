@@ -1,2 +1,5 @@
-/* Var must be followed by identifier */
-var.
+/* Symbol name already declared */
+const x = 2;
+var x;
+begin
+end.

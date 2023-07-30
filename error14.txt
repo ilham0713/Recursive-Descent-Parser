@@ -1,4 +1,5 @@
-/* If must be followed by then */
+/* Right parenthesis must follow left parenthesis */
+var x;
 begin
-	if 5 < 4
+	x := (x + 1
 end.

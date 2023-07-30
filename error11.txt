@@ -1,5 +1,4 @@
-/* Only variable values may be altered */
-const x = 6;
+/* If must be followed by then */
 begin
-	x := 5;
+	if 5 < 4
 end.

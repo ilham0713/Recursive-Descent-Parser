@@ -1,4 +1,2 @@
-/* Read must be followed by identifier */
-begin
-	read
-end.
+/* Constants must be assigned with = */
+const x := 6;.

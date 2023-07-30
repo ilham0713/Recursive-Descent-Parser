@@ -1,8 +1,0 @@
-/* number expected */
-const c = beans;
-procedure a;
-	begin
-		
-	end;
-begin
-end.

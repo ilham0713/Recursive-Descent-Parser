@@ -1,5 +1,4 @@
-/* Assignment statements must use := */
-var x;
+/* While must be followed by do */
 begin
-	x = 6;
+	while 5 < 4
 end.

@@ -1,9 +1,0 @@
-/* Expression can't begin with or use this symbol */
-var x,y,z,v,w;
-procedure a;
-	begin
-		y := <> 5;
-	end;
-begin
-	x := 5;
-end.

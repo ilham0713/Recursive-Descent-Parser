@@ -1,2 +1,5 @@
-/* Begin must be followed by end */
+/* Condition must contain comparison operator */
+var x;
 begin
+	if x then
+end.

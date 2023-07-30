@@ -1,7 +1,11 @@
+//Ilham Mukati
+//4953050
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+//for jpc and jmp we always multiply by 3 for the correct address
 
 #define DIGIT_LEN_MAX 5
 #define IDENT_LENMAX 11
@@ -90,9 +94,10 @@ void printTable(symbol **symbolTable)
 
 void factor(token **tokenz, symbol **symbolTable)
 {
-  if (tokenz[curIndex]->tokenValue == 2) 
+  if(tokenz[curIndex]->tokenValue == 2) 
   {
-    symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
+    //symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
+    int symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
     if (symIndex == -1)
     {
       printf("ERROR: Undeclared identifier %s\n",tokenz[curIndex]->identifier);
@@ -119,6 +124,7 @@ void factor(token **tokenz, symbol **symbolTable)
   {
     curIndex++;
     expression(tokenz, symbolTable);
+    //printf("current token %d\n", tokenz[curIndex]->tokenValue);
 
     if (tokenz[curIndex]->tokenValue != 16) //parenthesis (right)
     {
@@ -142,7 +148,7 @@ void term(token **tokenz, symbol **symbolTable)
 
   //printf("Top of term Curindex: %d  token value: %d\n", curIndex, tokenz[curIndex]->tokenValue);
   factor(tokenz, symbolTable);
-  // mult, slash, mod
+  // mult, slash
   while (tokenz[curIndex]->tokenValue == 6 || tokenz[curIndex]->tokenValue == 7)
   {
     if (tokenz[curIndex]->tokenValue == 6) // mult
@@ -151,55 +157,55 @@ void term(token **tokenz, symbol **symbolTable)
       factor(tokenz, symbolTable);
       emit(2, 3);
     }
-    else if (tokenz[curIndex]->tokenValue == 7) // slash
+    if (tokenz[curIndex]->tokenValue == 7) // divide
     {
       curIndex++;
       factor(tokenz, symbolTable);
       emit(2, 4);
-    }
-    else
-    {
-      printf("ERROR: Arithmetic operations must contain operands, parenthesis, numbers, or symbols\n");
-      exit (0);
-    }
+    } 
+    // else
+    // {
+    //
+    //   printf("ERROR: Arithmetic operations must contain operands, parenthesis, numbers, or symbols\n");
+    //   exit (0);
+    // }
   }
   //printf("End of term CurInd: %d  token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
 void expression(token **tokenz, symbol **symbolTable)
 {
-  if (tokenz[curIndex]->tokenValue == 5) // minus
+  if(tokenz[curIndex]->tokenValue == 5) // minus
   {
     curIndex++;
     term(tokenz, symbolTable);
-    while (tokenz[curIndex]->tokenValue == 4 || tokenz[curIndex]->tokenValue == 5) // plus or minus
+    while(tokenz[curIndex]->tokenValue == 4 || tokenz[curIndex]->tokenValue == 5) // plus or minus
     {
       if (tokenz[curIndex]->tokenValue == 4) // plus
       {
         curIndex++;
         term(tokenz, symbolTable);
-        emit(1, 0);
+        emit(2, 1);
       }
       else
       {
         curIndex++;
         term(tokenz, symbolTable);
-        emit(2, 0);
+        emit(2, 2);
       }
     }
   }
-
   else
   {
-    if (tokenz[curIndex]->tokenValue == 4) // plus
+    if(tokenz[curIndex]->tokenValue == 4) // plus
     {
       curIndex++;
     }
 
     term(tokenz, symbolTable);
-    while (tokenz[curIndex]->tokenValue == 4 || tokenz[curIndex]->tokenValue == 5) // plus or minus
+    while(tokenz[curIndex]->tokenValue == 4 || tokenz[curIndex]->tokenValue == 5) // plus or minus
     {
-      if (tokenz[curIndex]->tokenValue == 4) // plus
+      if(tokenz[curIndex]->tokenValue == 4) // plus
       {
         curIndex++;
         term(tokenz, symbolTable);
@@ -213,6 +219,7 @@ void expression(token **tokenz, symbol **symbolTable)
       }
     }
   }
+  //term(tokenz, symbolTable);
   //printf("expression curInd:   %d   token val:  %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
@@ -266,9 +273,10 @@ void condition(token **tokenz, symbol **symbolTable)
     }
     else
     {
-      printf("ERROR: Condition must contain comparison operators\n");
+      printf("ERROR: Condition must contain right and left comparison operators\n");
       exit (0);
     }
+
     //printf("End of cond curIndex:   %d   token val:  %d\n", curIndex, tokenz[curIndex]->tokenValue);
   }
 }
@@ -287,13 +295,13 @@ void statement(token **tokenz, symbol **symbolTable)
       exit(0);
     }
 
-    if (symbolTable[symIndex]->kind != 2) 
+    if (symbolTable[symIndex]->kind != 2) //not a var
     {
       printf("ERROR: Only variable values may be altered\n");
       exit(0);
     }
     curIndex++;
-    if (tokenz[curIndex]->tokenValue != 20) // becomsym
+    if (tokenz[curIndex]->tokenValue != 20) // becomesym
     {
       printf("ERROR: Assignment statements must use ':='\n");
       exit (0);
@@ -317,12 +325,10 @@ void statement(token **tokenz, symbol **symbolTable)
       // printf("ERROR: Begin must be followed by end\n");
       //   exit (0);
       // }
-
       statement(tokenz, symbolTable);
-    } while(tokenz[curIndex]->tokenValue == 18);
+    }while(tokenz[curIndex]->tokenValue == 18);
     //curIndex++;
-
-    if (tokenz[curIndex]->tokenValue != 22) // endsym
+    if(tokenz[curIndex]->tokenValue != 22) // endsym
     {
       printf("ERROR: Begin must be followed by end\n");
       exit (0);
@@ -345,14 +351,15 @@ void statement(token **tokenz, symbol **symbolTable)
     }
     curIndex++;
     statement(tokenz, symbolTable);
-    assemblyTable[jpcIndex].M = assemblyCnt;
+    assemblyTable[jpcIndex].M = (assemblyCnt)*3;
     return;
   }
+  //if(tokenz[curIndex]->tokenValue == ) hereeee
 
   if (tokenz[curIndex]->tokenValue == 25) // whilesym
   {
     curIndex++;
-    loopIndex = assemblyCnt;
+    int loopIndex = assemblyCnt;
     condition(tokenz, symbolTable);
     if (tokenz[curIndex]->tokenValue != 26) // dosym
     {
@@ -360,11 +367,11 @@ void statement(token **tokenz, symbol **symbolTable)
       exit (0);
     }
     curIndex++;
-    jpcIndex = assemblyCnt;
+    int jpcIndex = assemblyCnt;
     emit(8, 0);
     statement(tokenz, symbolTable);
-    emit(7, loopIndex);
-    assemblyTable[jpcIndex].M = assemblyCnt;
+    emit(7, (loopIndex)*3);
+    assemblyTable[jpcIndex].M = (assemblyCnt)*3;
     return;
   }
   if (tokenz[curIndex]->tokenValue == 32) // readsym
@@ -375,14 +382,12 @@ void statement(token **tokenz, symbol **symbolTable)
       printf("ERROR: Const, var, and read must be followed by an identifier\n");
       exit (0);
     }
-
-    symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
+    int symIndex = symbolTableCheck(tokenz[curIndex]->identifier, symbolTable);
     if (symIndex == -1)
     {
       printf("ERROR: Undeclared identifier %s\n", tokenz[curIndex]->identifier);
       exit(0);
     }
-
     if (symbolTable[symIndex]->kind != 2)
     {
       printf("ERROR: Only variable values may be altered\n");
@@ -472,7 +477,7 @@ void constantDeclaration (symbol **symbolTable, token **tokenz)
       exit(0);
     }
 
-    symbolTable[symCnt++] = makeSymbol(1, tokenz[1]->identifier, tokenz[3]->integer, -1);
+    symbolTable[symCnt++] = makeSymbol(1, tokenz[1]->identifier, tokenz[3]->integer, 0);
 
     curIndex++;
     curIndex++;
@@ -497,7 +502,7 @@ void constantDeclaration (symbol **symbolTable, token **tokenz)
         exit(0);
       }
 
-      symbolTable[symCnt++] = makeSymbol(2, tokenz[curIndex + 1]->identifier, tokenz[curIndex + 3]->integer, -1);
+      symbolTable[symCnt++] = makeSymbol(2, tokenz[curIndex + 1]->identifier, tokenz[curIndex + 3]->integer, 0);
       curIndex = curIndex + 4;
     }
     if (tokenz[curIndex]->tokenValue != 18)
@@ -530,7 +535,7 @@ void program (symbol **symbolTable, token **tokenz)
   //printf("\n\ntoken: %d\n\n", tokenz[curIndex]->tokenValue);
   if (tokenz[curIndex]->tokenValue != 19) // period
   {
-    printf("ERROR: No period found");
+    printf("ERROR: No period found\n");
     //printf("token val: %d", tokenz[curIndex]->tokenValue);
     //printf("index: %d token count: \n", curIndex);
     exit (0);
@@ -575,84 +580,59 @@ void emit(int OP, int M)
 char *printAssembly(int i)
 {
   int halt = 0;
-
   switch (assemblyTable[i].OP)
   {
   case 1: // pushes M onto stack
     return "LIT";
-
     break;
-
   case 2: // returns from a subroutine and restores caller’s AR
-
     switch (assemblyTable[i].M)
     {
     case 0: // return
       return "RTN";
-
       break;
-
     case 1: // add
       return "ADD";
-
       break;
-
     case 2: // subtract
       return "SUB";
-
       break;
-
     case 3: // multiply
       return "MUL";
-
       break;
-
     case 4: // divide
       return "DIV";
       break;
-
     case 5: // equal
       return "EQL";
-
       break;
-
     case 6: // not equal
       return "NEQ";
-
       break;
-
     case 7: // less than
       return "LSS";
-
       break;
-
     case 8: // less than or equal to
       return "LEQ";
-
       break;
-
     case 9: // greater than
       return "GTR";
-
       break;
-
     case 10: // greater than or equal to
       return "GEQ";
-
+      break;
+    case 11: //odd
+      return "ODD";
       break;
     }
     break;
-
   // loads val to top of stack from stack location at offset o from n lexicographical levels down
   case 3:
     return "LOD";
-
     break;
-
   // Stores val at top of stack in stack location at offset o from n lexicographical levels down
   case 4:
     return "STO";
-
     break;
 
   // calls procedure at code curIndex p, generates new activation record and setting PC to p
@@ -681,24 +661,20 @@ char *printAssembly(int i)
 
   // prints val, reads val, or ends program
   case 9:
-
     switch (assemblyTable[i].M)
     {
     // Output of the value in stack[SP] to standard output as a character and pops
     case 1:
       return "SYS";
-
       break;
-
     // Reads an int as char value, from stdin and stores it on the top of the stack
     case 2:
       //int userInt;
-      printf("Please Enter an Integer: \n");
-      //scanf("%d", &userInt);
-      printf("\tSIN\t");
-
+      // printf("Please Enter an Integer: \n");
+      // //scanf("%d", &userInt);
+      // printf("\tSIN\t");
+      return "SYS";
       break;
-
     // stop program
     case 3:
       return "SYS";
@@ -707,7 +683,6 @@ char *printAssembly(int i)
     }
     }
     assemblyCnt++;
-
     return "Error";
 }
 

@@ -1,2 +1,4 @@
-/* Const must be followed by identifier */
-const.
+/* Const, var, and read keywords must be followed by identifier*/
+const
+var
+read.

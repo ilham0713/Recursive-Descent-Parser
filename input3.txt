@@ -1,9 +1,6 @@
 var x,y,z,v,w;
-procedure a;
 	var x,y,u,v;
-	procedure b;
 		var y,z,v;
-		procedure c;
 			var y,z;
 			begin
 				z:=1;

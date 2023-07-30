@@ -1,4 +1,2 @@
-/* Undeclared identifier */
-begin
-	x := 7;
-end.
+/* Begin must be followed by end */
+begin.

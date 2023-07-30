@@ -1,2 +1,3 @@
-/* Constants must be assigned with = */
-const x := 6;
+/* Constant and Variable declarations must be followed by semicolon */
+var x
+const y.

@@ -1,4 +1,5 @@
-/* While must be followed by do */
+/* Arithmetic equations must contain operands, parenthesis, numbers, or symbols */
+var x;
 begin
-	while 5 < 4
+	x := x + ;
 end.
