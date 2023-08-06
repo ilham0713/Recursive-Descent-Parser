@@ -1,7 +1,0 @@
-/*must run*/
-var call, procedure;
-begin
-    call:=5; 
-    procedure:=3;
-    call := procedure + 3
-end.

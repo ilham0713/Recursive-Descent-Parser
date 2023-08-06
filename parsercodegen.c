@@ -80,18 +80,6 @@ symbol *makeSymbol(int kind, char *name, int value, int address)
   return workingSymbol;
 }
 
-void printTable(symbol **symbolTable)
-{
-  printf("\n");
-	printf("Symbol Table:\n\n");
-	printf("Kind | Name        | Value | Level | Address | Mark\n");
-	printf("----------------------------------------------------\n");
-
-	for (int i = 0; i < symCnt; i++)
-		printf("%4d | %11s | %5d | %5d | %7d | %5d\n", symbolTable[i]->kind, symbolTable[i]->name, symbolTable[i]->val, symbolTable[i]->level, symbolTable[i]->addr, 1);
-	printf("\n");
-}
-
 void factor(token **tokenz, symbol **symbolTable)
 {
   if(tokenz[curIndex]->tokenValue == 2) 
@@ -354,7 +342,6 @@ void statement(token **tokenz, symbol **symbolTable)
     assemblyTable[jpcIndex].M = (assemblyCnt)*3;
     return;
   }
-  //if(tokenz[curIndex]->tokenValue == ) hereeee
 
   if (tokenz[curIndex]->tokenValue == 25) // whilesym
   {
@@ -399,7 +386,6 @@ void statement(token **tokenz, symbol **symbolTable)
     return;
   }
 
-  //printf("curIndex in stmnt: %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 
   if (tokenz[curIndex]->tokenValue == 31) // writesym
   {
@@ -409,7 +395,6 @@ void statement(token **tokenz, symbol **symbolTable)
     return;
   }
 
-  //printf("Bottom of statement curInd : %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
 }
 
 int variableDeclaration (symbol **symbolTable, token **tokenz)
@@ -510,20 +495,15 @@ void constantDeclaration (symbol **symbolTable, token **tokenz)
       printf("ERROR: Constant and variable declarations must be followed by a semicolon\n");
     }
     curIndex++;
-    //printf("End of constDec curIndex: %d token val: %d\n", curIndex, tokenz[curIndex]->tokenValue);
   }
 }
 
 void block(symbol **symbolTable ,token **tokenz)
 {
   int numVars;
-  //printf("in constant\n");
   constantDeclaration(symbolTable, tokenz);
-  //printf("in variable\n");
   numVars = variableDeclaration(symbolTable, tokenz);
-  //printf("in emit\n");
   emit(6, (3 + numVars));
-  //printf("in statement\n");
   statement(tokenz, symbolTable);
 }
 
@@ -531,13 +511,9 @@ void program (symbol **symbolTable, token **tokenz)
 {
 
   block(symbolTable, tokenz);
-
-  //printf("\n\ntoken: %d\n\n", tokenz[curIndex]->tokenValue);
   if (tokenz[curIndex]->tokenValue != 19) // period
   {
-    printf("ERROR: No period found\n");
-    //printf("token val: %d", tokenz[curIndex]->tokenValue);
-    //printf("index: %d token count: \n", curIndex);
+    printf("ERROR: End of file expected but not found\n");
     exit (0);
   }
   emit(9, 3);
@@ -638,27 +614,21 @@ char *printAssembly(int i)
   // calls procedure at code curIndex p, generates new activation record and setting PC to p
   case 5:
     return "CAL";
-
     break;
 
   // allocates m locals on stack
   case 6:
     return "INC";
-
     break;
 
   // jump to addr in stack and pop
   case 7:
     return "JMP";
-
     break;
-
   // jump conditionally, if val in stack[sp] is 0, then jumps to a and pop stack
   case 8:
     return "JPC";
-
     break;
-
   // prints val, reads val, or ends program
   case 9:
     switch (assemblyTable[i].M)
@@ -669,10 +639,6 @@ char *printAssembly(int i)
       break;
     // Reads an int as char value, from stdin and stores it on the top of the stack
     case 2:
-      //int userInt;
-      // printf("Please Enter an Integer: \n");
-      // //scanf("%d", &userInt);
-      // printf("\tSIN\t");
       return "SYS";
       break;
     // stop program
@@ -698,7 +664,7 @@ token *makeToken(char *buffer)
   return propToken;
 }
 
-// Make special tokenz
+// Make special tokens
 token *getSpecial(char current, FILE *srcFile)
 {
   int skipsym = 1, identsym = 2, numbersym = 3, plussym = 4, minussym = 5,
@@ -771,11 +737,9 @@ token *getSpecial(char current, FILE *srcFile)
   }
   else if (current == '<')
   {
-    //printf("1current = %c\n", current);
     char prev = current;
 
     current = getc(srcFile);
-    //printf("2current = %c\n", current);
 
     if (current == '=')
     {
@@ -838,19 +802,15 @@ token *getSpecial(char current, FILE *srcFile)
 token *getNumToken(int *buffer, int length)
 {
   token *propToken = malloc(sizeof(token));
-
   int ans= 0;
   int power = 1;
-
   for (int i = length - 2; i >= 0; i--)
   {
     ans= ans+ (buffer[i] * power);
     power = power * 10;
   }
-
   propToken->tokenValue = 3;
   propToken->integer = ans;
-
   return propToken;
 }
 
@@ -909,18 +869,6 @@ int main (int argc, char **argv)
 
   char *file_name = argv[1];
   FILE *srcFile = fopen(file_name, "r");
-
-   /*printf("Source Program: \n");
-   // Print source program
-   while (!feof(srcFile))
-   {
-     current = getc(srcFile);
-     if (current == EOF)
-      break;
-     printf("%c", current);
-   }*/
-
-  //srcFile = fopen(file_name, "r");
 
   while (!feof(srcFile))
   {
@@ -1003,7 +951,6 @@ int main (int argc, char **argv)
     {
       int i = 0;
       int lengthCheck = 0;
-
       // Scans in all valid chars
       while (isalpha(current) || isdigit(current))
       {
@@ -1019,23 +966,18 @@ int main (int argc, char **argv)
         }
         current = getc(srcFile);
       }
-
-      // If the Identifier too long skips making the token
+      // If the Identifier too long skips making token
       if (lengthCheck == 1)
       {
         continue;
       }
-
       // Puts invalid char back into file
       ungetc(current, srcFile);
-
-      // Inserts null for strcmp 
+      // Inserts null string for strcmp 
       buffer[i] = '\0';
-
       // creates needed token 
       tokenz[tokenCnt++] = makeToken(buffer);
     }
-
     // Finds num token
     else if(isdigit(current))
     {
@@ -1051,7 +993,6 @@ int main (int argc, char **argv)
         i++;
         length++;
         current = getc(srcFile);
-
         //num is too long
         if (i > 4)
         {
@@ -1074,13 +1015,10 @@ int main (int argc, char **argv)
       {
         continue;
       }
-
       ungetc(current, srcFile);
-
-      // Makes  number token
       tokenz[tokenCnt++] = getNumToken(numBuffer, length);
     }
-    // Special character
+
     else
     {
       tokenz[tokenCnt++] = getSpecial(current, srcFile);
@@ -1091,7 +1029,6 @@ int main (int argc, char **argv)
       }
     }
   }
-  //printf("EO Program 2\n");
 
   if (tokenz[tokenCnt - 1]->tokenValue != 19)
   {
@@ -1104,35 +1041,17 @@ int main (int argc, char **argv)
 
   symbol **symbolTable = malloc(500 * sizeof(symbol));
   symbolTable[0] = malloc(sizeof(symbol));
-
-  //printf ("creating table\n");
-  // should be same
   symbolTable[0]->kind = 3;
-  //printf ("currentname\n");
   strcpy(symbolTable[0]->name, "main");
-  //printf("finished name\n");
   symbolTable[0]->val = 0;
   symbolTable[0]->level = 0;
   symbolTable[0]->addr = 3;
   symbolTable[0]->mark = 1;
-
-  //printf("symbolTable made");
-//trial for later
-  // for (int i = 0; i < tokenCnt; i++)
-  // {
-  //   if (tokenz[i]->tokenValue == 2)
-  //   {
-  //     checkDuplicates(tokenz, tokenCnt, tokenz[i]->identifier);
-  //   }
-  // }
-
   program(symbolTable, tokenz);
-
   assemblyTable[0].OP = 7;
   assemblyTable[0].L = 0;
   assemblyTable[0].M = 3;
-
-
+  printf("\nAssembly Code:\n");
   printf("\nLine\t\tOP\t\t\tL\t\tM\n");
 
   for (int i = 0; i < assemblyCnt; i++)
@@ -1140,6 +1059,4 @@ int main (int argc, char **argv)
     //printf("in for loop\n");
     printf("%d\t\t%s\t\t\t0\t\t%d\n", i, printAssembly(i), assemblyTable[i].M);
   }
-  
-  printTable(symbolTable);
 }
