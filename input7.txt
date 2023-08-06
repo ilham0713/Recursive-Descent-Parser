@@ -1,0 +1,3 @@
+/*must run*/
+var call, procedure;
+call:= procedure + 7.
