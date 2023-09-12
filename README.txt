@@ -1,5 +1,3 @@
-Name: Ilham Mukati
-
 To compile & run this code, download the parsercodegen.c file and any requisite 
 input files to the same folder/directory.  Sample input files are provided if needed.
 
